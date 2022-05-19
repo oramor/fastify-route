@@ -1,13 +1,15 @@
 import Fastify from "fastify";
+import { BaseServer } from "./lib/BaseServer.js";
 
-const engine = Fastify({
-  	logger: true
-});
+const server = new BaseServer(Fastify);
+server.listen(3000);
 
-engine.get('/', (request, reply) => {
-  	reply.send({ hello: 'world' })
-});
+const mainPageRoute = {
+	method: 'GET',
+	url: '/',
+	handler: (req, res) => {
+		res.send({ hello: 'world' });
+	}
+}
 
-engine.listen({ port: 3000 }, (err, address) => {
-  	if (err) throw err
-});
+server.addRoute(mainPageRoute);
