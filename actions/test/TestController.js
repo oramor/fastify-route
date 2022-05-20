@@ -1,4 +1,5 @@
 import { BaseController } from "../../lib/BaseController.js";
+import { TestURI as urls } from "./TestURI.js";
 import { TestLinkGET } from "./test-link/TestLinkGET.js";
 
 export class TestController extends BaseController {
@@ -6,9 +7,18 @@ export class TestController extends BaseController {
 		super(g);
 	}
 
-	getHandlers() {
+	// Or make this class iterable
+	get routes() {
 		return [
-			this.actionRunner(TestLinkGET)
+			this.testLinkGetHandler,
 		]
+	}
+
+	get testLinkGetHandler() {
+		return {
+			method: 'GET',
+			url: urls.testPage,
+			handler: this.actionRunner(TestLinkGET)
+		}
 	}
 }
